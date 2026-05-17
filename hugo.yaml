@@ -20,14 +20,14 @@ markup:
 
 menu:
   main:
-    - name: Docs
-      pageRef: /docs
-      weight: 1
     - name: Projects
       pageRef: /projects
-      weight: 2
+      weight: 1
     - name: Blog
       pageRef: /blog
+      weight: 2
+    - name: Docs
+      pageRef: /docs
       weight: 3
     - name: About
       url: "/about"
@@ -57,6 +57,21 @@ params:
 
   toc:
     displayTags: true
+
+  comments:
+    enable: true
+    type: giscus
+    giscus:
+      repo: sultanbayup/subaverse
+      repoId: R_kgDOSe3Ezg
+      category: General
+      categoryId: DIC_kwDOSe3Ezs4C9KCe
+      mapping: pathname
+      strict: "0"
+      reactionsEnabled: "1"
+      emitMetadata: "0"
+      inputPosition: bottom
+      lang: en
 
   blog:
     list:
