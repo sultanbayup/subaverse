@@ -8,7 +8,7 @@ layout: hextra-home
 <div class="hero-inner">
 
 <div class="hero-image">
-<img src="/images/profile.png" alt="Sultan Bayu Prasetyo" />
+<img src="/images/profile.webp" alt="Sultan Bayu Prasetyo" />
 </div>
 
 <div class="hero-text">
