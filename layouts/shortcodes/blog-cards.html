@@ -1,0 +1,125 @@
+{{- $count := .Get "count" | default 3 -}}
+{{- $posts := where site.RegularPages "Section" "blog" -}}
+{{- $posts = where $posts "Params.draft" "ne" true -}}
+{{- $posts = $posts.ByDate.Reverse -}}
+{{- $posts = first $count $posts -}}
+
+<style>
+.hp-blog-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+@media (min-width: 768px) {
+  .hp-blog-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+.hp-blog-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 0.5rem;
+  border: 1px solid rgba(0,0,0,0.08);
+  background-color: rgba(255,255,255,0.5);
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.dark .hp-blog-card {
+  border-color: rgba(255,255,255,0.08);
+  background-color: rgba(255,255,255,0.02);
+}
+.hp-blog-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  border-color: rgba(0,0,0,0.15);
+}
+.dark .hp-blog-card:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  border-color: rgba(255,255,255,0.15);
+}
+.hp-blog-card-image {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background-color: rgba(0,0,0,0.04);
+  flex-shrink: 0;
+  position: relative;
+}
+.dark .hp-blog-card-image {
+  background-color: rgba(255,255,255,0.04);
+}
+.hp-blog-card-image img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.hp-blog-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 1rem 1.25rem 1.25rem;
+  flex-grow: 1;
+  min-width: 0;
+}
+.hp-blog-card-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  line-height: 1.4;
+  margin: 0;
+}
+.hp-blog-card-summary {
+  font-size: 0.875rem;
+  line-height: 1.6;
+  opacity: 0.75;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.hp-blog-card-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-top: auto;
+  padding-top: 0.5rem;
+  font-size: 0.78rem;
+  opacity: 0.6;
+  flex-wrap: wrap;
+}
+.hp-blog-card-tags {
+  font-size: 0.78rem;
+  opacity: 0.85;
+}
+</style>
+
+<div class="hp-blog-grid">
+  {{- range $posts }}
+    {{- $cover := .Params.featured_image -}}
+    <a class="hp-blog-card" href="{{ .RelPermalink }}" aria-label="{{ .Title }}">
+      {{- with $cover }}
+        <div class="hp-blog-card-image">
+          <img src="{{ . }}" alt="" loading="lazy" />
+        </div>
+      {{- end }}
+      <div class="hp-blog-card-body">
+        <h3 class="hp-blog-card-title">{{ .Title }}</h3>
+        {{ with .Params.summary }}<p class="hp-blog-card-summary">{{ . }}</p>{{ end }}
+        <div class="hp-blog-card-meta">
+          <span>{{ partial "utils/format-date" .Date }}</span>
+          {{ with .Params.tags }}
+            <span class="hp-blog-card-tags">{{ delimit . ", " }}</span>
+          {{ end }}
+        </div>
+      </div>
+    </a>
+  {{- end }}
+</div>
