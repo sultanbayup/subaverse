@@ -1,0 +1,131 @@
+{{ define "main" }}
+  <style>
+    .tag-page-wrapper {
+      width: 100%;
+      max-width: 100%;
+    }
+    .tag-page-title {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.25rem;
+    }
+    .tag-page-count {
+      font-size: 0.9rem;
+      opacity: 0.5;
+      margin-bottom: 2.5rem;
+    }
+    .tag-section {
+      margin-bottom: 2.5rem;
+    }
+    .tag-section-heading {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      opacity: 0.45;
+      margin-bottom: 0.75rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+    }
+    .dark .tag-section-heading {
+      border-bottom-color: rgba(255, 255, 255, 0.07);
+    }
+    .tag-item-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .tag-item {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.6rem 0;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+      text-decoration: none;
+      color: inherit;
+      transition: opacity 0.15s ease;
+    }
+    .dark .tag-item {
+      border-bottom-color: rgba(255, 255, 255, 0.04);
+    }
+    .tag-item:last-child {
+      border-bottom: none;
+    }
+    .tag-item:hover {
+      opacity: 0.75;
+    }
+    .tag-item-title {
+      font-size: 0.95rem;
+      font-weight: 500;
+      line-height: 1.4;
+    }
+    .tag-item-date {
+      font-size: 0.78rem;
+      opacity: 0.4;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+  </style>
+
+  <div class="hx:mx-auto hx:flex hextra-max-page-width">
+    {{ partial "sidebar.html" (dict "context" . "disableSidebar" true "displayPlaceholder" true) }}
+    <article class="hx:w-full hx:break-words hx:flex hx:min-h-[calc(100vh-var(--navbar-height))] hx:min-w-0 hx:justify-center hx:pb-8 hx:pr-[calc(env(safe-area-inset-right)-1.5rem)]">
+      <main id="content" class="tag-page-wrapper hx:min-w-0 hextra-max-content-width hx:px-6 hx:pt-6 hx:md:px-12">
+
+        <h1 class="tag-page-title"># {{ .Title }}</h1>
+        <p class="tag-page-count">{{ len .Pages }} {{ if eq (len .Pages) 1 }}result{{ else }}results{{ end }} across all sections</p>
+
+        {{/* Group pages by section */}}
+        {{- $blog    := where .Pages "Section" "blog" -}}
+        {{- $docs    := where .Pages "Section" "docs" -}}
+        {{- $projects := where .Pages "Section" "projects" -}}
+
+        {{- if $blog }}
+          <div class="tag-section">
+            <div class="tag-section-heading">Blog</div>
+            <div class="tag-item-list">
+              {{- range $blog }}
+                <a class="tag-item" href="{{ .RelPermalink }}">
+                  <span class="tag-item-title">{{ .Title }}</span>
+                  <span class="tag-item-date">{{ partial "utils/format-date" .Date }}</span>
+                </a>
+              {{- end }}
+            </div>
+          </div>
+        {{- end }}
+
+        {{- if $docs }}
+          <div class="tag-section">
+            <div class="tag-section-heading">Docs</div>
+            <div class="tag-item-list">
+              {{- range $docs }}
+                <a class="tag-item" href="{{ .RelPermalink }}">
+                  <span class="tag-item-title">{{ .Title }}</span>
+                  <span class="tag-item-date">{{ partial "utils/format-date" .Date }}</span>
+                </a>
+              {{- end }}
+            </div>
+          </div>
+        {{- end }}
+
+        {{- if $projects }}
+          <div class="tag-section">
+            <div class="tag-section-heading">Projects</div>
+            <div class="tag-item-list">
+              {{- range $projects }}
+                <a class="tag-item" href="{{ .RelPermalink }}">
+                  <span class="tag-item-title">{{ .Title }}</span>
+                  <span class="tag-item-date">{{ partial "utils/format-date" .Date }}</span>
+                </a>
+              {{- end }}
+            </div>
+          </div>
+        {{- end }}
+
+      </main>
+    </article>
+    <div class="hx:max-xl:hidden hx:h-0 hx:w-64 hx:shrink-0"></div>
+  </div>
+{{- end -}}

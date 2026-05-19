@@ -1,0 +1,119 @@
+{{- $count := .Get "count" | default 3 -}}
+{{- $posts := where site.RegularPages "Section" "projects" -}}
+{{- $posts = where $posts "Params.draft" "ne" true -}}
+{{- $posts = $posts.ByDate.Reverse -}}
+{{- $posts = first $count $posts -}}
+
+<style>
+.hp-projects-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+  margin-top: 0.5rem;
+}
+@media (min-width: 640px) {
+  .hp-projects-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (min-width: 1024px) {
+  .hp-projects-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+.hp-project-card {
+  display: flex;
+  flex-direction: column;
+  border-radius: 0.625rem;
+  border: 1px solid rgba(0,0,0,0.08);
+  background-color: rgba(255,255,255,0.5);
+  padding: 1.5rem;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  gap: 0.75rem;
+}
+.dark .hp-project-card {
+  border-color: rgba(255,255,255,0.08);
+  background-color: rgba(255,255,255,0.02);
+}
+.hp-project-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+  border-color: rgba(0,0,0,0.15);
+}
+.dark .hp-project-card:hover {
+  box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+  border-color: rgba(255,255,255,0.15);
+}
+.hp-project-card-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  line-height: 1.4;
+  margin: 0;
+}
+.hp-project-card-summary {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  opacity: 0.75;
+  margin: 0;
+  flex-grow: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.hp-project-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: auto;
+  padding-top: 0.5rem;
+}
+.hp-stack-badge {
+  font-size: 0.7rem;
+  font-weight: 500;
+  padding: 0.2rem 0.5rem;
+  border-radius: 0.25rem;
+  background-color: rgba(0,0,0,0.05);
+  opacity: 0.85;
+}
+.dark .hp-stack-badge {
+  background-color: rgba(255,255,255,0.07);
+}
+.hp-project-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(0,0,0,0.06);
+  font-size: 0.8rem;
+  opacity: 0.5;
+}
+.dark .hp-project-card-footer {
+  border-top-color: rgba(255,255,255,0.06);
+}
+</style>
+
+<div class="hp-projects-grid">
+  {{- range $posts }}
+    <a class="hp-project-card" href="{{ .RelPermalink }}" aria-label="{{ .Title }}">
+      <h3 class="hp-project-card-title">{{ .Title }}</h3>
+      <p class="hp-project-card-summary">{{ .Params.summary | default .Summary }}</p>
+      {{- with .Params.tags }}
+        <div class="hp-project-stack">
+          {{- range . }}
+            <span class="hp-stack-badge">{{ . }}</span>
+          {{- end }}
+        </div>
+      {{- end }}
+      <div class="hp-project-card-footer">
+        <span>{{ partial "utils/format-date" .Date }}</span>
+        {{- with .Params.repo }}
+          <span>View repo →</span>
+        {{- end }}
+      </div>
+    </a>
+  {{- end }}
+</div>
