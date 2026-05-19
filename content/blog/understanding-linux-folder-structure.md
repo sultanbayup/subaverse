@@ -4,12 +4,12 @@ date: '2025-01-11'
 draft: false
 tags: ['linux', 'sysadmin', 'devops', 'filesystem']
 summary: "A practical and fun guide to Linux directory structure that won't put you to sleep."
-featured_image: 'https://assets.subaverse.xyz/blogs/understanding-linux-folder-structure/linux-logo.jpg'
+featured_image: '/images/blog/understanding-linux-folder-structure/linux-logo.webp'
 ---
 
 <figure>
   <img 
-    src="https://assets.subaverse.xyz/blogs/understanding-linux-folder-structure/linux-logo.jpg" 
+    src="/images/blog/understanding-linux-folder-structure/linux-logo.webp" 
     alt="Linux Logo"
   />
   <figcaption>

@@ -4,7 +4,7 @@ date: '2025-05-19'
 draft: false
 tags: ['ansible', 'automation', 'linux', 'devops', 'vagrant']
 summary: "My first hands-on experience with Ansible — provisioning two local VMs with Nginx, Docker, user management, and firewall config using playbooks and Vagrant."
-featured_image: '/images/blog/learning-ansible-server-provisioning-vagrant/ansible.png'
+featured_image: '/images/blog/learning-ansible-server-provisioning-vagrant/ansible.webp'
 ---
 
 I'd been reading about Ansible for a while — configuration management, idempotent playbooks, agentless architecture. At some point reading stops being useful and you just have to build something. So I set up a local lab with Vagrant and wrote my first real Ansible automation.
