@@ -117,37 +117,45 @@
     }
   </style>
 
-  <div class="projects-wrapper">
-    <div class="projects-header">
-      {{ if .Title }}<h1>{{ .Title }}</h1>{{ end }}
-      {{ with .Content }}<div>{{ . }}</div>{{ end }}
-    </div>
+  <div class="hx:mx-auto hx:flex hextra-max-page-width">
+    {{ partial "sidebar.html" (dict "context" . "disableSidebar" true "displayPlaceholder" false) }}
 
-    <div class="projects-grid">
-      {{- range (where .Pages "Params.draft" "ne" true) }}
-        <a class="project-card" href="{{ .RelPermalink }}" aria-label="{{ .Title }}">
-          <div class="project-card-top">
-            <h3 class="project-card-title">{{ .Title }}</h3>
+    <article class="hx:w-full hx:break-words hx:flex hx:min-w-0 hx:justify-center hx:pb-8">
+      <main id="content" class="hx:w-full hx:min-w-0 hextra-max-content-width hx:px-6 hx:pt-4 hx:md:px-8">
+        <div class="projects-wrapper">
+          <div class="projects-header">
+            {{ if .Title }}<h1>{{ .Title }}</h1>{{ end }}
+            {{ with .Content }}<div>{{ . }}</div>{{ end }}
           </div>
 
-          <p class="project-card-summary">{{ .Params.summary | default .Summary }}</p>
+          <div class="projects-grid">
+            {{- range (where .Pages "Params.draft" "ne" true) }}
+              <a class="project-card" href="{{ .RelPermalink }}" aria-label="{{ .Title }}">
+                <div class="project-card-top">
+                  <h3 class="project-card-title">{{ .Title }}</h3>
+                </div>
 
-          {{- with .Params.tags }}
-            <div class="project-stack">
-              {{- range . }}
-                <span class="stack-badge">{{ . }}</span>
-              {{- end }}
-            </div>
-          {{- end }}
+                <p class="project-card-summary">{{ .Params.summary | default .Summary }}</p>
 
-          <div class="project-card-footer">
-            <span>{{ partial "utils/format-date" .Date }}</span>
-            {{- with $.Params.repo }}
-              <span>View repo →</span>
+                {{- with .Params.tags }}
+                  <div class="project-stack">
+                    {{- range . }}
+                      <span class="stack-badge">{{ . }}</span>
+                    {{- end }}
+                  </div>
+                {{- end }}
+
+                <div class="project-card-footer">
+                  <span>{{ partial "utils/format-date" .Date }}</span>
+                  {{- with $.Params.repo }}
+                    <span>View repo →</span>
+                  {{- end }}
+                </div>
+              </a>
             {{- end }}
           </div>
-        </a>
-      {{- end }}
-    </div>
+        </div>
+      </main>
+    </article>
   </div>
 {{- end -}}
