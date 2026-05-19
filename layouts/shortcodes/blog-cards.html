@@ -107,11 +107,7 @@
     <a class="hp-blog-card" href="{{ .RelPermalink }}" aria-label="{{ .Title }}">
       {{- with $cover }}
         <div class="hp-blog-card-image">
-          {{- if hasPrefix . "http" }}
-            <img src="{{ . }}" alt="" loading="lazy" />
-          {{- else }}
-            <img src="{{ . | absURL }}" alt="" loading="lazy" />
-          {{- end }}
+          <img src="{{ . }}" alt="" loading="lazy" />
         </div>
       {{- end }}
       <div class="hp-blog-card-body">
