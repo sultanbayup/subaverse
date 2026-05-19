@@ -8,7 +8,7 @@ layout: hextra-home
 <div class="hero-inner">
 
 <div class="hero-image">
-<img src="/images/profile.webp" alt="Sultan Bayu Prasetyo" />
+<img src="{{< static-url "images/profile.webp" >}}" alt="Sultan Bayu Prasetyo" />
 </div>
 
 <div class="hero-text">
@@ -30,8 +30,8 @@ Cloud Infrastructure Engineer working with GCP, Kubernetes, and Terraform. Focus
 </div>
 
 <div class="hero-buttons">
-{{< hextra/hero-button text="About me" link="/about" >}}
-<a href="/cv.pdf" class="hero-btn-secondary" target="_blank" rel="noopener noreferrer">Download CV</a>
+{{< hextra/hero-button text="About me" link="about" >}}
+<a href="{{< static-url "cv.pdf" >}}" class="hero-btn-secondary" target="_blank" rel="noopener noreferrer">Download CV</a>
 </div>
 </div>
 
@@ -45,7 +45,7 @@ Cloud Infrastructure Engineer working with GCP, Kubernetes, and Terraform. Focus
   <div class="hx:text-2xl hx:font-bold">
   {{< hextra/hero-section heading="h3" >}}Featured Projects{{< /hextra/hero-section >}}
   </div>
-  <a href="/projects" class="hx:group hx:flex hx:items-center hx:gap-2 hx:text-sm hx:font-medium hx:text-primary-500 hx:transition">
+  <a href="{{< static-url "projects" >}}" class="hx:group hx:flex hx:items-center hx:gap-2 hx:text-sm hx:font-medium hx:text-primary-500 hx:transition">
   View all
   </a>
 </div>
@@ -57,7 +57,7 @@ Cloud Infrastructure Engineer working with GCP, Kubernetes, and Terraform. Focus
   <div class="hx:text-2xl hx:font-bold">
   {{< hextra/hero-section heading="h3" >}}Blog{{< /hextra/hero-section >}}
   </div>
-  <a href="/blog" class="hx:group hx:flex hx:items-center hx:gap-2 hx:text-sm hx:font-medium hx:text-primary-500 hx:transition">
+  <a href="{{< static-url "blog" >}}" class="hx:group hx:flex hx:items-center hx:gap-2 hx:text-sm hx:font-medium hx:text-primary-500 hx:transition">
   View all
   </a>
 </div>
@@ -69,7 +69,7 @@ Cloud Infrastructure Engineer working with GCP, Kubernetes, and Terraform. Focus
   <div class="hx:text-2xl hx:font-bold">
   {{< hextra/hero-section heading="h3" >}}Documentations{{< /hextra/hero-section >}}
   </div>
-  <a href="/docs" class="hx:group hx:flex hx:items-center hx:gap-2 hx:text-sm hx:font-medium hx:text-primary-500 hx:transition">
+  <a href="{{< static-url "docs" >}}" class="hx:group hx:flex hx:items-center hx:gap-2 hx:text-sm hx:font-medium hx:text-primary-500 hx:transition">
   View all
   </a>
 </div>
