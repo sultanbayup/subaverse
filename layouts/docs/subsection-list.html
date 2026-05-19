@@ -1,0 +1,120 @@
+{{ define "main" }}
+  <div class='hx:mx-auto hx:flex hextra-max-page-width'>
+    {{ partial "sidebar.html" (dict "context" .) }}
+    {{ partial "toc.html" . }}
+    <article class="hx:w-full hx:break-words hx:flex hx:min-h-[calc(100vh-var(--navbar-height))] hx:min-w-0 hx:justify-center hx:pb-8 hx:pr-[calc(env(safe-area-inset-right)-1.5rem)]">
+      <main id="content" class="hx:w-full hx:min-w-0 hextra-max-content-width hx:px-6 hx:pt-4 hx:md:px-12">
+        {{ partial "breadcrumb.html" (dict "page" . "enable" true) }}
+
+        <style>
+          .docs-subsection-header {
+            margin-bottom: 1.5rem;
+          }
+          .docs-subsection-header h1 {
+            margin-bottom: 0.5rem;
+          }
+          .docs-subsection-desc {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            opacity: 0.75;
+            margin: 0;
+          }
+          .docs-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+          }
+          .docs-list-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+            padding: 1rem 1.25rem;
+            border-radius: 0.5rem;
+            border: 1px solid rgba(0,0,0,0.08);
+            background-color: rgba(255,255,255,0.5);
+            text-decoration: none;
+            color: inherit;
+            transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+          }
+          .dark .docs-list-item {
+            border-color: rgba(255,255,255,0.08);
+            background-color: rgba(255,255,255,0.02);
+          }
+          .docs-list-item:hover {
+            transform: translateX(3px);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+            border-color: rgba(0,0,0,0.15);
+          }
+          .dark .docs-list-item:hover {
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            border-color: rgba(255,255,255,0.15);
+          }
+          .docs-list-item-title {
+            font-size: 1rem;
+            font-weight: 600;
+            line-height: 1.4;
+            margin: 0;
+          }
+          .docs-list-item-summary {
+            font-size: 0.875rem;
+            line-height: 1.55;
+            opacity: 0.7;
+            margin: 0;
+          }
+          .docs-list-item-meta {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.25rem;
+            flex-wrap: wrap;
+          }
+          .docs-list-item-date {
+            font-size: 0.75rem;
+            opacity: 0.5;
+          }
+          .docs-list-item-tag {
+            font-size: 0.7rem;
+            font-weight: 500;
+            padding: 0.15rem 0.45rem;
+            border-radius: 0.25rem;
+            background-color: rgba(0,0,0,0.05);
+            opacity: 0.8;
+          }
+          .dark .docs-list-item-tag {
+            background-color: rgba(255,255,255,0.07);
+          }
+        </style>
+
+        <div class="docs-subsection-header content">
+          {{ if .Title }}<h1>{{ .Title }}</h1>{{ end }}
+          {{ with .Description }}<p class="docs-subsection-desc">{{ . }}</p>{{ end }}
+        </div>
+
+        {{- $pages := where .RegularPages "Params.draft" "ne" true -}}
+        {{- $pages = $pages.ByParam "weight" -}}
+
+        {{ if $pages }}
+          <div class="docs-list">
+            {{- range $pages }}
+              <a class="docs-list-item" href="{{ .RelPermalink }}" aria-label="{{ .Title }}">
+                <h3 class="docs-list-item-title">{{ .Title }}</h3>
+                {{ with .Params.summary }}<p class="docs-list-item-summary">{{ . }}</p>{{ end }}
+                <div class="docs-list-item-meta">
+                  <span class="docs-list-item-date">{{ partial "utils/format-date" .Date }}</span>
+                  {{- range .Params.tags }}
+                    <span class="docs-list-item-tag">{{ . }}</span>
+                  {{- end }}
+                </div>
+              </a>
+            {{- end }}
+          </div>
+        {{ else }}
+          <p style="opacity:0.5; margin-top:1.5rem; font-size:0.9rem;">No docs published yet.</p>
+        {{ end }}
+
+        {{ partial "components/last-updated.html" . }}
+      </main>
+    </article>
+  </div>
+{{ end }}
