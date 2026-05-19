@@ -25,7 +25,7 @@ Hi, I'm Sultan Bayu Prasetyo
 
 <div class="hx:mb-8">
 {{< hextra/hero-subtitle >}}
-Cloud Infrastructure Engineer with hands-on experience in GCP, Kubernetes, Terraform, and multi-cloud environments. I build reliable, cost-efficient infrastructure and document what I learn along the way.
+Cloud Infrastructure Engineer working with GCP, Kubernetes, and Terraform. Focused on cloud-native and hybrid infrastructure. I build things, break things, fix them, and write about it here.
 {{< /hextra/hero-subtitle >}}
 </div>
 
