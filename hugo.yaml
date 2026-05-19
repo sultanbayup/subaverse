@@ -1,5 +1,5 @@
 # Hugo configuration file
-baseURL: https://sultanbayup.github.io
+baseURL: https://sultanbayup.github.io/subaverse/
 title: Subaverse
 
 enableInlineShortcodes: true
