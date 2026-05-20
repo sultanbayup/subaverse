@@ -1,0 +1,49 @@
+{{- /* ─── Twitter / X Card meta tags ─────────────────────────────────────────
+     Requirements: 7.1, 7.2, 7.3
+
+     Hextra already emits: twitter:card, twitter:title, twitter:description
+     We emit only what Hextra does NOT cover:
+       - twitter:image  (with fallback to site default OG image)
+       - twitter:site   (handle from site.Params.social.twitter)
+─────────────────────────────────────────────────────────────────────────── */ -}}
+
+{{- /* ── Image resolution ─────────────────────────────────────────────────── */ -}}
+{{- $image := "" -}}
+{{- if .Params.featured_image -}}
+  {{- $image = .Params.featured_image -}}
+{{- else if site.Params.og.defaultImage -}}
+  {{- $image = site.Params.og.defaultImage -}}
+{{- end -}}
+
+{{- /* ── Construct absolute URL when image path starts with "/" ────────────── */ -}}
+{{- $imageURL := "" -}}
+{{- if $image -}}
+  {{- if hasPrefix $image "/" -}}
+    {{- $imageURL = printf "%s%s" (site.BaseURL | strings.TrimRight "/") $image -}}
+  {{- else -}}
+    {{- $imageURL = $image -}}
+  {{- end -}}
+{{- end -}}
+
+{{- /* ── twitter:image (only when an image is available) ───────────────────── */ -}}
+{{- if $imageURL }}
+<meta name="twitter:image" content="{{ $imageURL }}">
+{{- end }}
+
+{{- /* ── twitter:site (optional, from site.Params.social.twitter) ───────────
+     The value may be a full URL (https://x.com/handle) or a bare handle
+     (handle or @handle). Extract just the handle in either case and ensure
+     it is prefixed with "@".
+─────────────────────────────────────────────────────────────────────────── */ -}}
+{{- with site.Params.social.twitter -}}
+  {{- $handle := . -}}
+  {{- /* Strip full URL to get just the handle */ -}}
+  {{- if hasPrefix $handle "http" -}}
+    {{- $handle = path.Base $handle -}}
+  {{- end -}}
+  {{- /* Ensure @ prefix */ -}}
+  {{- if not (hasPrefix $handle "@") -}}
+    {{- $handle = printf "@%s" $handle -}}
+  {{- end }}
+<meta name="twitter:site" content="{{ $handle }}">
+{{- end }}

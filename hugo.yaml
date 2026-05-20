@@ -78,3 +78,24 @@ params:
     list:
       displayTags: true
       pagerSize: 6
+
+  description: "Personal engineering platform by Sultan Bayu Prasetyo. Cloud infrastructure, Kubernetes, DevOps, and platform engineering."
+
+  author:
+    name: "Sultan Bayu Prasetyo"
+    url: "https://sultanbp.com"
+
+  jobTitle: "Cloud Infrastructure Engineer"
+
+  social:
+    github: "https://github.com/sultanbayup"
+    linkedin: "https://linkedin.com/in/sultanbp"
+    twitter: "sultanbp_"
+
+  og:
+    defaultImage: "/images/og-default.png"
+
+sitemap:
+  changefreq: weekly
+  priority: 0.5
+  filename: sitemap.xml
