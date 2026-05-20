@@ -110,10 +110,11 @@
       padding-top: 0.75rem;
       border-top: 1px solid rgba(0, 0, 0, 0.06);
       font-size: 0.8rem;
-      opacity: 0.5;
+      color: #595959;
     }
     .dark .project-card-footer {
       border-top-color: rgba(255, 255, 255, 0.06);
+      color: #a3a3a3;
     }
   </style>
 
@@ -132,7 +133,7 @@
             {{- range (where .Pages "Params.draft" "ne" true) }}
               <a class="project-card" href="{{ .RelPermalink }}" aria-label="{{ .Title }}">
                 <div class="project-card-top">
-                  <h3 class="project-card-title">{{ .Title }}</h3>
+                  <p class="project-card-title">{{ .Title }}</p>
                 </div>
 
                 <p class="project-card-summary">{{ .Params.summary | default .Summary }}</p>

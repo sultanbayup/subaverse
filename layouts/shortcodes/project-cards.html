@@ -89,17 +89,18 @@
   padding-top: 0.75rem;
   border-top: 1px solid rgba(0,0,0,0.06);
   font-size: 0.8rem;
-  opacity: 0.5;
+  color: #595959;
 }
 .dark .hp-project-card-footer {
   border-top-color: rgba(255,255,255,0.06);
+  color: #a3a3a3;
 }
 </style>
 
 <div class="hp-projects-grid">
   {{- range $posts }}
     <a class="hp-project-card" href="{{ .RelPermalink }}" aria-label="{{ .Title }}">
-      <h3 class="hp-project-card-title">{{ .Title }}</h3>
+      <p class="hp-project-card-title">{{ .Title }}</p>
       <p class="hp-project-card-summary">{{ .Params.summary | default .Summary }}</p>
       {{- with .Params.tags }}
         <div class="hp-project-stack">
