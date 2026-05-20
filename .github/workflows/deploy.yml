@@ -40,6 +40,7 @@ jobs:
       - name: Build with Hugo
         env:
           HUGO_BASEURL: ${{ vars.HUGO_BASEURL }}
+          HUGO_ENVIRONMENT: production
         run: |
           hugo mod tidy
           hugo --minify --baseURL "$HUGO_BASEURL"
