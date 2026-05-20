@@ -1,0 +1,8 @@
+{{- /* ─── SEO Orchestrator ────────────────────────────────────────────────────
+     Calls all SEO sub-partials in order, passing the current page context.
+     Requirement: 14.4
+─────────────────────────────────────────────────────────────────────────── */ -}}
+{{ partial "seo/meta.html" . }}
+{{ partial "seo/opengraph.html" . }}
+{{ partial "seo/twitter.html" . }}
+{{ partial "seo/jsonld.html" . }}

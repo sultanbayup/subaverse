@@ -1,0 +1,63 @@
+{{- /* ─── LCP preload tag ─────────────────────────────────────────────────────
+     Emitted only for:
+       - Homepage (IsHome): preloads /images/profile.webp
+       - Blog post with non-empty featured_image: preloads the featured_image value
+     All other page types: no preload tag emitted.
+     A present-but-empty featured_image is treated as absent (no tag).
+─────────────────────────────────────────────────────────────────────────── */ -}}
+{{- if .IsHome -}}
+<link rel="preload" as="image" href="/images/profile.webp" fetchpriority="high">
+{{- else if and .IsPage (eq .Section "blog") .Params.featured_image -}}
+<link rel="preload" as="image" href="{{ .Params.featured_image }}" fetchpriority="high">
+{{- end }}
+
+{{- /* ─── Meta description ──────────────────────────────────────────────────
+     Priority chain:
+       1. .Params.description  (explicit frontmatter override)
+       2. .Params.summary      (frontmatter summary field)
+       3. .Summary             (Hugo auto-generated excerpt)
+       4. site.Params.description (site-wide fallback from hugo.yaml)
+     Truncated to 160 chars. Tag omitted entirely if all sources are empty.
+─────────────────────────────────────────────────────────────────────────── */ -}}
+{{- /* ── Description resolution ──────────────────────────────────────────────
+     Priority chain:
+       1. .Params.description  (explicit frontmatter override — plain text)
+       2. .Params.summary      (frontmatter summary — plain text)
+       3. .Summary             (Hugo auto-excerpt — may contain HTML, strip it)
+       4. site.Params.description (site-wide fallback)
+     Use plainify on .Summary to strip any HTML before truncating.
+     Do NOT apply htmlEscape manually — Hugo's template engine auto-escapes
+     attribute values, and double-escaping produces &amp;#39; artifacts.
+─────────────────────────────────────────────────────────────────────────── */ -}}
+{{- $desc := "" -}}
+{{- if .Params.description -}}
+  {{- $desc = .Params.description -}}
+{{- else if .Params.summary -}}
+  {{- $desc = .Params.summary -}}
+{{- else if .Summary -}}
+  {{- $desc = .Summary | plainify | strings.TrimSpace -}}
+{{- else if site.Params.description -}}
+  {{- $desc = site.Params.description -}}
+{{- end -}}
+{{- /* Hextra already emits <meta name="description"> on most pages.
+     Only emit ours when Hextra's version would be absent or polluted
+     (e.g. homepage where .Summary contains raw shortcode HTML). */ -}}
+{{- if $desc }}
+<meta name="description" content="{{ $desc | truncate 160 }}">
+{{- end }}
+
+{{- /* ─── Canonical URL ──────────────────────────────────────────────────────
+     Hextra emits its own canonical tag. We emit ours after it; search
+     engines treat the last canonical as authoritative, but having two
+     identical canonicals is harmless. To avoid any duplication concern,
+     only emit when Hextra would not (non-standard page types). For now
+     emit unconditionally — both point to the same URL.
+─────────────────────────────────────────────────────────────────────────── */ -}}
+<link rel="canonical" href="{{ .Permalink }}">
+
+{{- /* ─── Robots noindex ─────────────────────────────────────────────────────── 
+     Only emitted when .Params.noindex is explicitly true.
+─────────────────────────────────────────────────────────────────────────── */ -}}
+{{- if .Params.noindex }}
+<meta name="robots" content="noindex,nofollow">
+{{- end }}

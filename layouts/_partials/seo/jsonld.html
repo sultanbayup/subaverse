@@ -1,0 +1,148 @@
+{{- /* ─── JSON-LD Structured Data ──────────────────────────────────────────────
+     Schema selection:
+       - Homepage (IsHome)                        → Person
+       - Blog post (.Section == "blog", .IsPage)  → BlogPosting
+       - Project page (.Section == "projects", .IsPage) → CreativeWork
+       - Docs page (.Section == "docs", .IsPage)  → TechArticle
+     All string values are passed through jsonify (via dict + jsonify) to
+     prevent injection. No manual JSON string interpolation is used.
+─────────────────────────────────────────────────────────────────────────── */ -}}
+
+{{- /* ─── Shared author object ─────────────────────────────────────────────── */ -}}
+{{- $authorName := site.Params.author.name | default "" -}}
+{{- $authorURL  := site.BaseURL | default "" -}}
+{{- $author := dict "@type" "Person" "name" $authorName "url" $authorURL -}}
+
+{{- /* ─── Shared description resolution ──────────────────────────────────────
+     Priority: .Params.description → .Params.summary → .Summary (plainified)
+     Use plainify on .Summary to strip HTML before injecting into JSON-LD.
+─────────────────────────────────────────────────────────────────────────── */ -}}
+{{- $desc := "" -}}
+{{- if .Params.description -}}
+  {{- $desc = .Params.description -}}
+{{- else if .Params.summary -}}
+  {{- $desc = .Params.summary -}}
+{{- else if .Summary -}}
+  {{- $desc = .Summary | plainify | strings.TrimSpace -}}
+{{- end -}}
+
+{{- /* ═══════════════════════════════════════════════════════════════════════
+     PERSON SCHEMA — Homepage only
+═══════════════════════════════════════════════════════════════════════════ */ -}}
+{{- if .IsHome -}}
+  {{- $personName := site.Params.author.name | default "" -}}
+  {{- $personURL  := site.BaseURL | default "" -}}
+  {{- $jobTitle   := site.Params.jobTitle | default "" -}}
+
+  {{- /* Build sameAs slice from social params, filtering empty values */ -}}
+  {{- $sameAs := slice -}}
+  {{- with site.Params.social.github   -}}{{- $sameAs = $sameAs | append . -}}{{- end -}}
+  {{- with site.Params.social.linkedin -}}{{- $sameAs = $sameAs | append . -}}{{- end -}}
+  {{- with site.Params.social.twitter  -}}{{- $sameAs = $sameAs | append . -}}{{- end -}}
+
+  {{- /* Build the dict conditionally — only add keys with non-empty values */ -}}
+  {{- $schema := dict "@context" "https://schema.org" "@type" "Person" -}}
+  {{- if $personName -}}
+    {{- $schema = merge $schema (dict "name" $personName) -}}
+  {{- end -}}
+  {{- if $personURL -}}
+    {{- $schema = merge $schema (dict "url" $personURL) -}}
+  {{- end -}}
+  {{- if $jobTitle -}}
+    {{- $schema = merge $schema (dict "jobTitle" $jobTitle) -}}
+  {{- end -}}
+  {{- if $sameAs -}}
+    {{- $schema = merge $schema (dict "sameAs" $sameAs) -}}
+  {{- end -}}
+
+<script type="application/ld+json">
+{{ $schema | jsonify (dict "indent" "  ") }}
+</script>
+
+{{- /* ═══════════════════════════════════════════════════════════════════════
+     BLOGPOSTING SCHEMA — Blog leaf pages
+═══════════════════════════════════════════════════════════════════════════ */ -}}
+{{- else if and (.IsPage) (eq .Section "blog") -}}
+  {{- $headline      := .Title | default "" -}}
+  {{- $datePublished := .Date.Format "2006-01-02T15:04:05Z07:00" -}}
+  {{- $dateModified  := .Lastmod.Format "2006-01-02T15:04:05Z07:00" -}}
+  {{- $permalink     := .Permalink | default "" -}}
+  {{- $featuredImage := .Params.featured_image | default "" -}}
+
+  {{- $schema := dict "@context" "https://schema.org" "@type" "BlogPosting" -}}
+  {{- if $headline -}}
+    {{- $schema = merge $schema (dict "headline" $headline) -}}
+  {{- end -}}
+  {{- if $desc -}}
+    {{- $schema = merge $schema (dict "description" $desc) -}}
+  {{- end -}}
+  {{- if $datePublished -}}
+    {{- $schema = merge $schema (dict "datePublished" $datePublished) -}}
+  {{- end -}}
+  {{- /* Only emit dateModified if it differs from datePublished */ -}}
+  {{- if and $dateModified (ne $dateModified $datePublished) -}}
+    {{- $schema = merge $schema (dict "dateModified" $dateModified) -}}
+  {{- end -}}
+  {{- $schema = merge $schema (dict "author" $author) -}}
+  {{- if $permalink -}}
+    {{- $schema = merge $schema (dict "url" $permalink) -}}
+  {{- end -}}
+  {{- if $featuredImage -}}
+    {{- $schema = merge $schema (dict "image" $featuredImage) -}}
+  {{- end -}}
+
+<script type="application/ld+json">
+{{ $schema | jsonify (dict "indent" "  ") }}
+</script>
+
+{{- /* ═══════════════════════════════════════════════════════════════════════
+     CREATIVEWORK SCHEMA — Project leaf pages
+═══════════════════════════════════════════════════════════════════════════ */ -}}
+{{- else if and (.IsPage) (eq .Section "projects") -}}
+  {{- $name      := .Title | default "" -}}
+  {{- $permalink := .Permalink | default "" -}}
+
+  {{- $schema := dict "@context" "https://schema.org" "@type" "CreativeWork" -}}
+  {{- if $name -}}
+    {{- $schema = merge $schema (dict "name" $name) -}}
+  {{- end -}}
+  {{- if $desc -}}
+    {{- $schema = merge $schema (dict "description" $desc) -}}
+  {{- end -}}
+  {{- if $permalink -}}
+    {{- $schema = merge $schema (dict "url" $permalink) -}}
+  {{- end -}}
+  {{- $schema = merge $schema (dict "author" $author) -}}
+
+<script type="application/ld+json">
+{{ $schema | jsonify (dict "indent" "  ") }}
+</script>
+
+{{- /* ═══════════════════════════════════════════════════════════════════════
+     TECHARTICLE SCHEMA — Docs leaf pages
+═══════════════════════════════════════════════════════════════════════════ */ -}}
+{{- else if and (.IsPage) (eq .Section "docs") -}}
+  {{- $headline      := .Title | default "" -}}
+  {{- $datePublished := .Date.Format "2006-01-02T15:04:05Z07:00" -}}
+  {{- $permalink     := .Permalink | default "" -}}
+
+  {{- $schema := dict "@context" "https://schema.org" "@type" "TechArticle" -}}
+  {{- if $headline -}}
+    {{- $schema = merge $schema (dict "headline" $headline) -}}
+  {{- end -}}
+  {{- if $desc -}}
+    {{- $schema = merge $schema (dict "description" $desc) -}}
+  {{- end -}}
+  {{- if $datePublished -}}
+    {{- $schema = merge $schema (dict "datePublished" $datePublished) -}}
+  {{- end -}}
+  {{- $schema = merge $schema (dict "author" $author) -}}
+  {{- if $permalink -}}
+    {{- $schema = merge $schema (dict "url" $permalink) -}}
+  {{- end -}}
+
+<script type="application/ld+json">
+{{ $schema | jsonify (dict "indent" "  ") }}
+</script>
+
+{{- end -}}
