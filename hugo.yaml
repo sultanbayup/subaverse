@@ -1,6 +1,6 @@
 # Hugo configuration file
 baseURL: https://sultanbp.com
-title: Subaverse
+title: "Sultan Bayu — Cloud Infrastructure Engineer"
 
 enableInlineShortcodes: true
 
