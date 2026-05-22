@@ -130,41 +130,49 @@
     }
   </style>
 
-  <div class="blog-wrapper">
-    <div class="blog-page-header">
-      {{ if .Title }}<h1>{{ .Title }}</h1>{{ end }}
-      {{ with .Content }}<p>{{ . | plainify }}</p>{{ end }}
-    </div>
+  <div class="hx:mx-auto hx:flex hextra-max-page-width">
+    {{ partial "sidebar.html" (dict "context" . "disableSidebar" true "displayPlaceholder" false) }}
 
-    {{- $pages := partial "utils/sort-pages" (dict "page" . "by" site.Params.blog.list.sortBy "order" site.Params.blog.list.sortOrder) -}}
-    {{- $pagerSize := site.Params.blog.list.pagerSize | default 10 -}}
-    {{- $paginator := .Paginate $pages $pagerSize -}}
-
-    <div class="blog-card-grid">
-      {{- range $paginator.Pages }}
-        {{- $cover := .Params.featured_image -}}
-        <a class="blog-card" href="{{ .RelPermalink }}" aria-label="{{ .Title }}">
-          {{- with $cover }}
-            <div class="blog-card-image-wrap">
-              <img src="{{ . }}" alt="{{ $.Title }}" loading="lazy" />
-            </div>
-          {{- end }}
-          <div class="blog-card-body">
-            <h3 class="blog-card-title">{{ .Title }}</h3>
-            <p class="blog-card-summary">{{- partial "utils/page-description" . -}}</p>
-            <div class="blog-card-meta">
-              <span>{{ partial "utils/format-date" .Date }}</span>
-              {{ if and site.Params.blog.list.displayTags .Params.tags }}
-                <span class="blog-card-tags">{{ delimit .Params.tags ", " }}</span>
-              {{ end }}
-            </div>
+    <article class="hx:w-full hx:break-words hx:flex hx:min-w-0 hx:justify-center hx:pb-8">
+      <main id="content" class="hx:w-full hx:min-w-0 hextra-max-content-width hx:px-6 hx:pt-4 hx:md:px-8">
+        <div class="blog-wrapper">
+          <div class="blog-page-header">
+            {{ if .Title }}<h1>{{ .Title }}</h1>{{ end }}
+            {{ with .Content }}<p>{{ . | plainify }}</p>{{ end }}
           </div>
-        </a>
-      {{ end -}}
-    </div>
 
-    {{- if gt $paginator.TotalPages 1 -}}
-      {{ partial "components/blog-pager.html" $paginator }}
-    {{- end -}}
+          {{- $pages := partial "utils/sort-pages" (dict "page" . "by" site.Params.blog.list.sortBy "order" site.Params.blog.list.sortOrder) -}}
+          {{- $pagerSize := site.Params.blog.list.pagerSize | default 10 -}}
+          {{- $paginator := .Paginate $pages $pagerSize -}}
+
+          <div class="blog-card-grid">
+            {{- range $paginator.Pages }}
+              {{- $cover := .Params.featured_image -}}
+              <a class="blog-card" href="{{ .RelPermalink }}" aria-label="{{ .Title }}">
+                {{- with $cover }}
+                  <div class="blog-card-image-wrap">
+                    <img src="{{ . }}" alt="{{ $.Title }}" loading="lazy" />
+                  </div>
+                {{- end }}
+                <div class="blog-card-body">
+                  <h3 class="blog-card-title">{{ .Title }}</h3>
+                  <p class="blog-card-summary">{{- partial "utils/page-description" . -}}</p>
+                  <div class="blog-card-meta">
+                    <span>{{ partial "utils/format-date" .Date }}</span>
+                    {{ if and site.Params.blog.list.displayTags .Params.tags }}
+                      <span class="blog-card-tags">{{ delimit .Params.tags ", " }}</span>
+                    {{ end }}
+                  </div>
+                </div>
+              </a>
+            {{ end -}}
+          </div>
+
+          {{- if gt $paginator.TotalPages 1 -}}
+            {{ partial "components/blog-pager.html" $paginator }}
+          {{- end -}}
+        </div>
+      </main>
+    </article>
   </div>
 {{- end -}}
