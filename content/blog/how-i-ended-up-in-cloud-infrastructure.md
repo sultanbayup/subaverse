@@ -22,7 +22,7 @@ This is the story of how I got here — the wrong turns, the late nights, the ex
 
 When I was finishing college, I looked at the job market and made a call. Physics is interesting, but the employment options felt narrow. Tech, on the other hand, had real potential — locally and abroad. So I started learning.
 
-I didn't jump straight into infrastructure. I started with data analytics and data science, because it felt like the closest bridge from physics. Both fields train you to think in structured, quantitative ways. It made sense at the time.
+I didn't jump straight into infrastructure. I started with data analytics and data science, because it felt like the closest bridge from physics. Both involve a lot of structured thinking, which felt familiar. It made sense at the time.
 
 What I didn't expect was where that bridge would actually lead me.
 
@@ -58,7 +58,7 @@ I had four months.
 
 I registered anyway. Part stubbornness, part curiosity, part not fully understanding what I was getting into.
 
-I failed. Honestly — what did I expect? I was a fresh graduate who had just started touching cloud infrastructure. But the failure wasn't demoralizing. It was clarifying. I knew exactly what I didn't know, and that's actually a useful place to be.
+I failed. Honestly — what did I expect? I was a fresh graduate who had just started touching cloud infrastructure. But I knew exactly what I didn't know after that, and that's actually a useful place to be.
 
 ## Building the foundation properly
 
@@ -81,7 +81,17 @@ Between the exams, there was just... the job. And the job was hard in ways that 
   />
 </figure>
 
-I remember setting up monitoring because I needed a way to know when something broke before someone else told me. I remember troubleshooting incidents late at night, tracing through logs, trying to figure out why something that worked yesterday wasn't working anymore. Those nights were frustrating in the moment. Looking back, they taught me more than any certification prep ever did.
+One night, Prefect went down. The orchestration platform we used for data pipelines — just stopped. I started digging. The pods weren't running, and at that point I didn't really understand Kubernetes well enough to read the situation quickly. No AI to ask. Just me, the logs, and a lot of Stack Overflow.
+
+Several hours in, I traced it back to Postgres. The database wasn't ready, so the pods wouldn't start. But when I tried to SSH into the VM to fix it, I couldn't log in. The disk was completely full.
+
+So I stopped the VM, detached the disk, spun up a temporary VM, attached the disk there, and manually expanded it. Then reattached everything, brought the VM back up, and finally got into the database. The root cause: no log retention policy. A year's worth of logs sitting on disk, never cleaned up.
+
+I deleted the old logs. Production came back up. I went to sleep.
+
+The next morning I wrote the automation to handle log retention so it couldn't happen again.
+
+That's the job. Nobody writes that in a study guide. You learn it at 2am when something is broken and you're the one who has to fix it.
 
 Early career is uncomfortable. You're constantly in situations where you don't fully know what you're doing. But you figure it out, and then the next time it's a little less scary. That's how it works.
 
@@ -122,13 +132,13 @@ My reasoning was simple: AI needs infrastructure to run. Every model, every trai
 
 I also didn't want to restart. I've spent three years building real depth in cloud infrastructure and platform engineering. Throwing that away to start over in a field I'd be a beginner in again didn't make sense. I can learn enough about AI to work alongside it — and I already do, using it to move faster on the things I'm already good at.
 
-The field is changing. I'm changing with it. But I'm not leaving.
+I'm changing with it. But I'm not leaving.
 
 ## Where this goes
 
 I'm not done with certifications, and I'm not done learning. Platform engineering, SRE, Kubernetes at scale — there's a lot of ground still to cover.
 
-But more than the certs, what I care about is building things that actually work. Systems that don't fall over at 2am. Infrastructure that the people using it don't have to think about. That's the job, and I still find it interesting.
+But more than the certs, what I care about is building things that actually work. Systems that don't fall over at 2am. Infrastructure that the people using it don't have to think about. That's the job.
 
 I started as a physics student who made a practical bet on tech. Three years in, I think the bet paid off. Not because of the certifications — those are just markers. But because I found work that I'm genuinely good at and still want to get better at.
 
