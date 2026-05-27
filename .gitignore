@@ -23,6 +23,11 @@ pnpm-lock.yaml
 # Editor
 .vscode/
 
+# Kiro internals
+.kiro
+.kiro/specs/
+.kiro/.meta/
+
 # Local notes
 TODO/
 

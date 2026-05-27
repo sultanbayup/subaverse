@@ -32,7 +32,7 @@ These are five things that consistently help me stay on top of work without burn
   <figcaption>Eisenhower Matrix — urgent vs. important</figcaption>
 </figure>
 
-Start by figuring out what actually matters. The Eisenhower Matrix is a simple tool for this — sort tasks by urgency and importance, handle the high-value items first, and either delegate or drop the rest. A clear order makes a heavy workload feel manageable instead of paralyzing.
+Start by figuring out what matters. The Eisenhower Matrix is a simple tool for this — sort tasks by urgency and importance, handle the high-value items first, and either delegate or drop the rest. A clear order makes a heavy workload feel manageable instead of paralyzing.
 
 ## 2. Be disciplined
 
@@ -47,7 +47,7 @@ Start by figuring out what actually matters. The Eisenhower Matrix is a simple t
   </figcaption>
 </figure>
 
-Once you have a plan, follow it. Tackle the most urgent and important tasks first, and don't let yourself get pulled into easy busywork that feels productive but isn't. Discipline doesn't mean grinding nonstop — short breaks and proper sleep are part of the system. Tired output is bad output.
+Once you have a plan, follow it. Tackle the most urgent and important tasks first, and don't let yourself get pulled into easy busywork that feels productive but isn't. Discipline doesn't mean grinding nonstop. Short breaks and proper sleep are part of the system. Tired output is bad output.
 
 ## 3. Stay focused
 
@@ -77,7 +77,7 @@ Cut the noise. Phone away, notifications off, one task at a time. Multitasking f
   </figcaption>
 </figure>
 
-Honest self-assessment beats heroic over-commitment. Know what you're good at, know where you're slow, and size your commitments accordingly. If something is genuinely beyond your capacity, ask for help — coworkers, friends, family. Delegating is not a weakness; missing a deadline you could have shared is.
+Honest self-assessment beats heroic over-commitment. Know what you're good at, know where you're slow, and size your commitments accordingly. If something is beyond your capacity, ask for help — coworkers, friends, family. Delegating is not a weakness. Missing a deadline you could have shared is.
 
 ## 5. Stay agile
 
@@ -96,6 +96,6 @@ Plans change. New requirements show up, blockers appear, priorities shift. Stay 
 
 ## A small thing that helps
 
-Write things down. A notebook, a to-do app, Google Calendar — whatever you'll actually look at. Tasks you can see are tasks you can finish. Tasks living only in your head are tasks waiting to be forgotten.
+Write things down. A notebook, a to-do app, Google Calendar — whatever you'll look at. Tasks you can see are tasks you can finish. Tasks living only in your head are tasks waiting to be forgotten.
 
 Hit a few deadlines on time, on purpose, and people start treating you differently. That's worth the effort.

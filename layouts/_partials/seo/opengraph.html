@@ -15,6 +15,19 @@
 <meta property="og:type" content="{{ $ogType }}">
 <meta property="og:site_name" content="{{ site.Title | htmlEscape }}">
 
+{{- /* ── og:description: same priority chain as meta description ── */ -}}
+{{- $ogDesc := "" -}}
+{{- if .Params.description -}}
+  {{- $ogDesc = .Params.description -}}
+{{- else if .Params.summary -}}
+  {{- $ogDesc = .Params.summary -}}
+{{- else if site.Params.description -}}
+  {{- $ogDesc = site.Params.description -}}
+{{- end -}}
+{{- if $ogDesc }}
+<meta property="og:description" content="{{ $ogDesc | truncate 200 }}">
+{{- end }}
+
 {{- /* ── og:image: absolute URL from featured_image or site default ── */ -}}
 {{- $ogImage := "" -}}
 {{- $baseURL := site.BaseURL | strings.TrimRight "/" -}}

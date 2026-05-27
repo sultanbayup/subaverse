@@ -7,7 +7,7 @@ summary: "My first hands-on experience with Ansible — provisioning two local V
 featured_image: '/images/blog/learning-ansible-server-provisioning-vagrant/ansible.webp'
 ---
 
-I'd been reading about Ansible for a while — configuration management, idempotent playbooks, agentless architecture. At some point reading stops being useful and you just have to build something. So I set up a local lab with Vagrant and wrote my first real Ansible automation.
+I'd been reading about Ansible for a while — configuration management, idempotent playbooks, agentless architecture. At some point reading stops being useful and you have to build something. So I set up a local lab with Vagrant and wrote my first real Ansible automation.
 
 This is what I built, what I learned, and what I'd do differently.
 
@@ -38,13 +38,13 @@ ansible-training/
     └── Vagrantfile            # Two-VM local environment
 ```
 
-The numbered playbooks were intentional — I wanted to run them in sequence and understand what each one did before moving to the next.
+The numbered playbooks were intentional. I wanted to run them in sequence and understand what each one did before moving to the next.
 
 ## What Each Playbook Does
 
 ### 01 — Nginx Install
 
-Installs Nginx on the `web` group, ensures the service is started and enabled on boot. Simple, but this is where I first understood what idempotency actually means in practice — running the playbook twice doesn't reinstall Nginx, it just confirms the desired state is already met.
+Installs Nginx on the `web` group, ensures the service is started and enabled on boot. Simple, but this is where I first understood what idempotency means in practice. Running the playbook twice doesn't reinstall Nginx, it confirms the desired state is already met.
 
 ### 02 — Docker Setup
 
@@ -60,19 +60,19 @@ Configures UFW on the web server — allows SSH and HTTP, denies everything else
 
 ### 05 — Status Check
 
-Runs service status checks and prints the output. Useful for verifying the previous playbooks actually worked. Not something you'd keep in production automation, but helpful during learning.
+Runs service status checks and prints the output. Useful for verifying the previous playbooks worked. Not something you'd keep in production automation, but helpful during learning.
 
 ## What I Actually Learned
 
-**Idempotency is the point.** The first time I ran a playbook and saw `changed=0` on the second run, it clicked. Ansible isn't a script runner — it's a state enforcer. You describe what you want, not what to do.
+**Idempotency is the point.** The first time I ran a playbook and saw `changed=0` on the second run, it clicked. Ansible isn't a script runner. It's a state enforcer. You describe what you want, not what to do.
 
-**Inventory is more powerful than it looks.** `hosts.ini` seems trivial at first, but grouping hosts and using group variables is where Ansible's real flexibility comes from. I only scratched the surface here.
+**Inventory is more powerful than it looks.** `hosts.ini` seems trivial at first, but grouping hosts and using group variables is where Ansible's flexibility comes from. I only scratched the surface here.
 
 **Modules beat shell commands.** I was tempted to use `shell:` for everything because I already knew bash. But using proper modules (`apt`, `ufw`, `user`, `authorized_key`) gives you idempotency, better error messages, and readable output for free.
 
 **Vagrant is a great Ansible lab.** Spinning up and destroying VMs with `vagrant up` and `vagrant destroy` made it easy to test from a clean state repeatedly. Much faster feedback loop than using real cloud VMs.
 
-**Task ordering matters.** Running Docker setup before the user exists, or firewall config before Nginx is installed, causes failures. The numbered playbook approach was a crutch — in a real project you'd handle this with dependencies and roles.
+**Task ordering matters.** Running Docker setup before the user exists, or firewall config before Nginx is installed, causes failures. The numbered playbook approach was a crutch. In a real project you'd handle this with dependencies and roles.
 
 ## What I'd Do Differently
 
@@ -86,8 +86,8 @@ Runs service status checks and prints the output. Useful for verifying the previ
 
 ## Final Thoughts
 
-Ansible clicked for me faster than I expected. The learning curve is shallow compared to something like Terraform — if you know Linux and YAML, you can be productive quickly.
+Ansible clicked for me faster than I expected. The learning curve is shallow compared to something like Terraform. If you know Linux and YAML, you can be productive quickly.
 
 The gap between "I understand Ansible" and "I can write production-grade Ansible" is mostly about roles, variable management, and testing. That's where I'm headed next.
 
-If you're just starting out, a Vagrant-based lab like this is the right way to begin. Break things, fix them, run the playbook again, see `changed=0`. That's the moment it makes sense.
+If you're starting out, a Vagrant-based lab like this is the right way to begin. Break things, fix them, run the playbook again, see `changed=0`. That's the moment it makes sense.
