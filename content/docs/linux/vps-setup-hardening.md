@@ -11,6 +11,13 @@ tags:
 summary: "Initial setup and hardening process for a personal Linux VPS — covers user management, SSH hardening, firewall, Fail2ban, automatic updates, and Docker."
 ---
 
+> [!TIP]
+> **Just want it done?** Run the companion script — one command handles everything on this page.
+> ```bash
+> curl -fsSL https://raw.githubusercontent.com/sultanbayup/linux-automation/main/vps/setup/setup-vps.sh | sudo bash
+> ```
+> Source and full details: [github.com/sultanbayup/linux-automation](https://github.com/sultanbayup/linux-automation)
+
 ## Overview
 
 This guide covers the initial setup and hardening process for a personal Linux VPS running Ubuntu. The goal is to establish a secure, lightweight, and maintainable foundation ready for Docker workloads, self-hosted services, and infrastructure experiments.
@@ -127,6 +134,45 @@ sudo systemctl restart ssh
 
 > [!WARNING]
 > Keep your current SSH session open while testing the new config in a second terminal. If the new session connects successfully, it is safe to close the original.
+
+{{< details title="Recommended: Change the default SSH port" closed="true" >}}
+
+Port 22 is the default SSH port and the first thing automated scanners probe. Changing it to a non-standard port (e.g. 2222 or any unused port above 1024) significantly reduces brute-force noise in your logs — not because it adds real security, but because most automated attacks never bother scanning beyond port 22.
+
+Add the `Port` directive to `sshd_config`:
+
+```text {filename="/etc/ssh/sshd_config"}
+Port 2222
+```
+
+Update UFW to allow the new port **before** restarting SSH — otherwise you will be locked out:
+
+```bash
+sudo ufw allow 2222/tcp
+sudo ufw delete allow OpenSSH   # remove the old rule after confirming access
+sudo systemctl restart ssh
+```
+
+Test the connection in a new terminal before closing the current session:
+
+```bash
+ssh -p 2222 sultan@YOUR_SERVER_IP
+```
+
+If you use Fail2ban, update the jail to monitor the new port:
+
+```ini {filename="/etc/fail2ban/jail.local"}
+[sshd]
+enabled = true
+port    = 2222
+logpath = %(sshd_log)s
+backend = %(sshd_backend)s
+```
+
+> [!NOTE]
+> This is security through obscurity — it reduces noise but is not a substitute for key-based auth and Fail2ban. Do it in addition to those, not instead of them.
+
+{{< /details >}}
 
 ---
 
@@ -414,6 +460,7 @@ Confirm the `sshd` jail is active.
 - [x] System packages updated
 - [x] Hostname and timezone configured
 - [x] Docker installed
+- [ ] SSH port changed from default 22 (optional, recommended)
 
 ---
 
@@ -423,3 +470,4 @@ Confirm the `sshd` jail is active.
 - [UFW Documentation](https://help.ubuntu.com/community/UFW)
 - [Fail2ban Documentation](https://www.fail2ban.org/wiki/index.php/Main_Page)
 - [Docker Install — Official](https://docs.docker.com/engine/install/ubuntu/)
+- [linux-automation — GitHub](https://github.com/sultanbayup/linux-automation)
