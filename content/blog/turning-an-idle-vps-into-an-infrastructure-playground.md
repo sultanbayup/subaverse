@@ -1,7 +1,7 @@
 ---
 title: "Turning an Idle VPS into an Infrastructure Playground"
-date: '2026-05-24'
-draft: true
+date: '2026-05-26'
+draft: false
 tags: ['vps', 'traefik', 'docker', 'cloudflare', 'uptime-kuma', 'linux', 'homelab', 'networking']
 categories: []
 summary: "I had a VPS sitting idle after moving my site to GitHub Pages. Instead of letting it collect dust, I turned it into a proper infrastructure playground — and learned more than I expected."
